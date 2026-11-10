@@ -1,0 +1,1550 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PEGUETH - Central Multimídia</title>
+
+<style>
+:root {
+    --gold: #f2b544;
+    --gold2: #ffcf70;
+    --bg: #101314;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(#34383a, #090b0c);
+    font-family: Arial, sans-serif;
+    color: white;
+    padding: 15px;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+.central {
+    width: min(1120px, 97vw);
+    height: min(610px, 92vh);
+    min-height: 500px;
+    background: #0b0d0e;
+    border: 9px solid #050606;
+    border-radius: 24px;
+    box-shadow: 0 25px 70px #000;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.topo {
+    height: 46px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background: #202425;
+    border-bottom: 1px solid #a8792e;
+    font-size: 11px;
+    color: #ccc;
+}
+
+.logo {
+    color: var(--gold2);
+    font-weight: bold;
+    letter-spacing: 4px;
+    font-size: 15px;
+}
+
+.conteudo {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+}
+
+.menu {
+    width: 76px;
+    flex-shrink: 0;
+    background: #090b0c;
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 9px 6px;
+    gap: 7px;
+}
+
+.menu button {
+    width: 59px;
+    min-height: 51px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: none;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.menu button span {
+    display: block;
+    font-size: 8px;
+    margin-top: 3px;
+}
+
+.menu button.ativo,
+.menu button:hover {
+    color: var(--gold2);
+    background: #302719;
+    border-color: #b98537;
+}
+
+.telas {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    padding: 15px 17px 60px;
+    overflow: auto;
+    background: linear-gradient(135deg, #15191a, #111415);
+    position: relative;
+}
+
+.tela {
+    display: none;
+    height: 100%;
+    min-height: 0;
+}
+
+.tela.ativa {
+    display: block;
+}
+
+.painel {
+    background: linear-gradient(145deg, #252a2b, #171b1c);
+    border: 1px solid #414646;
+    border-radius: 13px;
+    padding: 14px;
+}
+
+.subtitulo {
+    font-size: 9px;
+    letter-spacing: 1.8px;
+    color: #d2a85f;
+}
+
+.titulo {
+    font-size: 20px;
+    font-weight: normal;
+    margin: 5px 0 13px;
+}
+
+.dourado {
+    color: var(--gold2);
+}
+
+.muted {
+    color: #aaa;
+}
+
+/* INÍCIO */
+
+.inicio {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1.6fr .9fr;
+    gap: 14px;
+}
+
+.carro-painel {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: radial-gradient(ellipse at center, #3a4142, #171b1c 78%);
+}
+
+.carro-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.carro-topo h1 {
+    color: var(--gold2);
+    font-size: 23px;
+    letter-spacing: 4px;
+    margin: 5px 0;
+}
+
+.edicao {
+    color: #d5b77f;
+    font-size: 9px;
+    border: 1px solid #80643c;
+    padding: 6px 9px;
+    border-radius: 20px;
+}
+
+.carro-imagem {
+    position: absolute;
+    inset: 65px 5px 45px;
+    display: grid;
+    place-items: center;
+}
+
+.carro-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transform: scale(1.12);
+    filter: drop-shadow(0 14px 10px #0009);
+}
+
+.carro-rodape {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid #ffffff25;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: #aaa;
+}
+
+.lado-direito {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+}
+
+.relogio {
+    padding: 12px 15px;
+}
+
+.hora {
+    font-size: 35px;
+    letter-spacing: 2px;
+    margin: 4px 0;
+}
+
+.data {
+    color: #aaa;
+    font-size: 10px;
+}
+
+.atalhos {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    min-height: 0;
+}
+
+.atalho {
+    border: 1px solid #514633;
+    background: linear-gradient(145deg, #292d2e, #1a1e1f);
+    border-radius: 12px;
+    color: white;
+    text-align: left;
+    padding: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+}
+
+.atalho:hover {
+    border-color: var(--gold);
+    background: #302719;
+}
+
+.atalho i {
+    font-style: normal;
+    font-size: 23px;
+    color: var(--gold2);
+}
+
+.atalho b {
+    font-size: 12px;
+}
+
+.atalho small {
+    font-size: 9px;
+    color: #aaa;
+}
+
+.resumo-clima {
+    font-size: 10px;
+    color: #aaa;
+    padding: 5px;
+}
+
+.resumo-clima strong {
+    color: var(--gold2);
+}
+
+/* BOTÕES E CAMPOS */
+
+.botao {
+    border: 1px solid #a97930;
+    background: #332719;
+    color: #ffd17a;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.botao:hover {
+    background: #49351d;
+}
+
+.botao.secundario {
+    border-color: #555;
+    background: #24292a;
+    color: #ddd;
+}
+
+.campo {
+    width: 100%;
+    border: 1px solid #555d5e;
+    background: #101415;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.campo:focus {
+    outline: 1px solid var(--gold);
+}
+
+.linha-botoes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.cabecalho-pagina {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.aviso {
+    font-size: 10px;
+    color: #aaa;
+    margin: 0 0 10px;
+}
+
+/* MÚSICAS */
+
+.lista-musicas {
+    height: calc(100% - 65px);
+    overflow: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+}
+
+.musica {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid #3d4242;
+    background: #1b2021;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.musica:hover,
+.musica.selecionada {
+    border-color: var(--gold);
+    background: #302719;
+}
+
+.numero {
+    color: var(--gold2);
+    font-size: 10px;
+    width: 22px;
+}
+
+.musica strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.musica small {
+    display: block;
+    color: #aaa;
+    font-size: 9px;
+    margin-top: 4px;
+}
+
+/* CÂMERA */
+
+.camera {
+    height: calc(100% - 65px);
+    min-height: 280px;
+    position: relative;
+    border-radius: 13px;
+    overflow: hidden;
+    border: 1px solid #59615c;
+    background: linear-gradient(#46534e, #26342f 48%, #101512);
+}
+
+.parede {
+    position: absolute;
+    top: 15%;
+    width: 100%;
+    height: 26%;
+    background: repeating-linear-gradient(
+        90deg, #39413e 0 8%, #59605b 8.5% 9%, #303936 9.5% 18%
+    );
+    border-bottom: 4px solid #72756a;
+}
+
+.chao {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 48%;
+    background: linear-gradient(#343d37, #101512);
+}
+
+.linhas-estacionamento {
+    position: absolute;
+    bottom: -10%;
+    left: 22%;
+    width: 56%;
+    height: 82%;
+    border-left: 3px solid #e9d8a4;
+    border-right: 3px solid #e9d8a4;
+    transform: perspective(210px) rotateX(26deg);
+    transform-origin: bottom;
+}
+
+.linhas-estacionamento:before,
+.linhas-estacionamento:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    border-top: 3px solid #e9d8a4;
+}
+
+.linhas-estacionamento:before {
+    top: 35%;
+}
+
+.linhas-estacionamento:after {
+    top: 68%;
+}
+
+.guias {
+    position: absolute;
+    bottom: 5%;
+    left: 34%;
+    width: 32%;
+    height: 53%;
+    border-left: 3px solid #62d18a;
+    border-right: 3px solid #62d18a;
+    transform: perspective(180px) rotateX(25deg);
+    transform-origin: bottom;
+}
+
+.carro-visto-cima {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 48px;
+    border-radius: 24px 24px 10px 10px;
+    background: linear-gradient(90deg, #7e8584, #d1d5d1, #535b59);
+    border: 2px solid #ddd;
+}
+
+.carro-visto-cima:before {
+    content: "";
+    position: absolute;
+    left: 17px;
+    right: 17px;
+    top: 8px;
+    height: 22px;
+    background: #303a3b;
+    border-radius: 13px 13px 5px 5px;
+}
+
+.sensor {
+    position: absolute;
+    top: 49%;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #f2b544;
+    box-shadow: 0 0 12px #f2b544;
+}
+
+.sensor.esquerdo {
+    left: 13%;
+}
+
+.sensor.direito {
+    right: 13%;
+}
+
+.camera-topo,
+.camera-rodape {
+    position: absolute;
+    z-index: 3;
+    left: 14px;
+    right: 14px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    text-shadow: 0 1px 4px black;
+}
+
+.camera-topo {
+    top: 12px;
+}
+
+.camera-rodape {
+    bottom: 12px;
+}
+
+.camera-rodape strong {
+    color: #b9f0b9;
+}
+
+.sem-guias .linhas-estacionamento,
+.sem-guias .guias {
+    display: none;
+}
+
+/* CLIMATIZAÇÃO */
+
+.clima-layout {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 12px;
+    height: calc(100% - 45px);
+}
+
+.clima-principal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.controle-temperatura {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px;
+}
+
+.controle-temperatura button {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid #a97930;
+    background: #302719;
+    color: var(--gold2);
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.temperatura-ajustada {
+    font-size: 48px;
+    color: var(--gold2);
+}
+
+.temperatura-ajustada small {
+    font-size: 13px;
+    color: #aaa;
+}
+
+.acoes-clima {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.acoes-clima button {
+    padding: 12px 5px;
+    border-radius: 9px;
+    border: 1px solid #4b5050;
+    background: #202526;
+    color: #ddd;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.acoes-clima button.ligado {
+    border-color: var(--gold);
+    color: var(--gold2);
+    background: #332719;
+}
+
+.barra {
+    width: 100%;
+    accent-color: var(--gold);
+}
+
+.ambiente {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.temperatura-ambiente {
+    font-size: 43px;
+    color: var(--gold2);
+    margin: 10px;
+}
+
+.configuracao {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #444;
+    font-size: 11px;
+}
+
+.configuracao strong {
+    color: var(--gold2);
+    font-weight: 500;
+}
+
+/* MAPA */
+
+.mapa-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 12px;
+    height: calc(100% - 45px);
+}
+
+.mapa-grafico {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #202a28;
+    border: 1px solid #4a5550;
+    min-height: 230px;
+}
+
+.ruas {
+    position: absolute;
+    inset: -20%;
+    background:
+        linear-gradient(30deg, transparent 43%, #68716a 44% 47%, transparent 48%),
+        linear-gradient(110deg, transparent 38%, #69746d 39% 42%, transparent 43%),
+        linear-gradient(0deg, transparent 60%, #4a5850 61% 64%, transparent 65%),
+        linear-gradient(90deg, transparent 24%, #45534c 25% 28%, transparent 29%);
+    transform: rotate(-8deg);
+}
+
+.pino {
+    position: absolute;
+    left: 51%;
+    top: 43%;
+    font-size: 28px;
+}
+
+.mapa-texto {
+    color: #aaa;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* TELEFONE E CONFIGURAÇÕES */
+
+.duas-colunas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    height: calc(100% - 45px);
+}
+
+.telefone-centro {
+    text-align: center;
+    padding: 35px 10px;
+}
+
+.icone-grande {
+    font-size: 45px;
+    color: var(--gold2);
+}
+
+.valor {
+    font-size: 30px;
+    color: var(--gold2);
+    margin: 15px 0;
+}
+
+.configuracoes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    height: calc(100% - 45px);
+}
+
+.configuracoes .painel {
+    overflow: auto;
+}
+
+.configuracoes label {
+    display: block;
+    font-size: 11px;
+    margin: 12px 0 7px;
+    color: #ddd;
+}
+
+.configuracoes input[type="checkbox"] {
+    accent-color: var(--gold);
+}
+
+.rodape {
+    height: 34px;
+    flex-shrink: 0;
+    background: #101213;
+    border-top: 1px solid #393939;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    color: #999;
+    font-size: 9px;
+}
+
+.rodape button {
+    background: transparent;
+    border: 0;
+    color: var(--gold2);
+    cursor: pointer;
+    font-size: 10px;
+}
+
+@media(max-width:700px) {
+    body {
+        padding: 3px;
+    }
+
+    .central {
+        width: 100%;
+        height: 95vh;
+        min-height: 550px;
+        border-width: 5px;
+    }
+
+    .menu {
+        width: 57px;
+    }
+
+    .menu button {
+        width: 45px;
+    }
+
+    .telas {
+        padding: 9px 9px 55px;
+    }
+
+    .inicio {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+    }
+
+    .carro-painel {
+        min-height: 260px;
+    }
+
+    .lado-direito {
+        min-height: 300px;
+    }
+
+    .clima-layout,
+    .mapa-layout,
+    .duas-colunas,
+    .configuracoes {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+    }
+
+    .clima-principal,
+    .ambiente {
+        min-height: 260px;
+    }
+
+    .lista-musicas {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="central">
+
+    <header class="topo">
+        <div class="logo">PEGUETH</div>
+        <div>
+            <span style="color:#9bd3a1">● SISTEMA ATIVO</span>
+            &nbsp; | &nbsp;
+            <span id="relogioTopo">00:00</span>
+            &nbsp; | &nbsp; 22°C
+        </div>
+    </header>
+
+    <div class="conteudo">
+
+        <nav class="menu">
+            <button class="ativo" data-tela="inicio" onclick="abrirTela('inicio',this)">⌂<span>INÍCIO</span></button>
+            <button data-tela="musica" onclick="abrirTela('musica',this)">♫<span>MÚSICA</span></button>
+            <button data-tela="camera" onclick="abrirTela('camera',this)">▣<span>CÂMERA</span></button>
+            <button data-tela="clima" onclick="abrirTela('clima',this)">❄<span>CLIMA</span></button>
+            <button data-tela="mapa" onclick="abrirTela('mapa',this)">➤<span>MAPA</span></button>
+            <button data-tela="telefone" onclick="abrirTela('telefone',this)">☎<span>TELEFONE</span></button>
+            <button data-tela="ajustes" onclick="abrirTela('ajustes',this)">⚙<span>AJUSTES</span></button>
+        </nav>
+
+        <main class="telas">
+
+            <!-- TELA INICIAL -->
+
+            <section class="tela ativa" id="inicio">
+
+                <div class="inicio">
+
+                    <div class="painel carro-painel">
+
+                        <div class="carro-topo">
+                            <div>
+                                <div class="subtitulo">CARRINHOS VELOZES</div>
+                                <h1>PEGUETH</h1>
+                                <div class="subtitulo">CENTRAL DE BORDO</div>
+                            </div>
+                            <span class="edicao">CLASSIC EDITION</span>
+                        </div>
+
+                        <div class="carro-imagem">
+                            <img src="https://cdn.autopapo.com.br/carro/peugeot/207-hatch-active-14-flex-2015/frente-v1.png">
+                        </div>
+
+                        <div class="carro-rodape">
+                            <span>VEÍCULO PRINCIPAL</span>
+                            <strong class="dourado">PRONTO PARA A VIAGEM</strong>
+                            <span>22°C EXTERNO</span>
+                        </div>
+
+                    </div>
+
+                    <div class="lado-direito">
+
+                        <div class="painel relogio">
+                            <div class="subtitulo">BEM-VINDO AO PEGUETH</div>
+                            <div class="hora" id="horaGrande">00:00</div>
+                            <div class="data" id="dataGrande">--/--/----</div>
+                        </div>
+
+                        <div class="atalhos">
+
+                            <button class="atalho" onclick="abrirTela('musica')">
+                                <i>♫</i>
+                                <b>Música</b>
+                                <small>Biblioteca musical</small>
+                            </button>
+
+                            <button class="atalho" onclick="abrirTela('telefone')">
+                                <i>☎</i>
+                                <b>Telefone</b>
+                                <small>Bluetooth</small>
+                            </button>
+
+                            <button class="atalho" onclick="abrirTela('mapa')">
+                                <i>➤</i>
+                                <b>Navegação</b>
+                                <small>Pesquisar destino</small>
+                            </button>
+
+                            <button class="atalho" onclick="abrirTela('camera')">
+                                <i>▣</i>
+                                <b>Câmera de ré</b>
+                                <small>Assistente de manobra</small>
+                            </button>
+
+                        </div>
+
+                        <div class="resumo-clima">
+                            CLIMATIZAÇÃO:
+                            <strong id="resumoClima">21°C · AUTO</strong>
+                            <button class="botao" onclick="abrirTela('clima')">Abrir ar-condicionado</button>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- MÚSICAS -->
+
+            <section class="tela" id="musica">
+
+                <div class="cabecalho-pagina">
+                    <div>
+                        <div class="subtitulo">ENTRETENIMENTO</div>
+                        <div class="titulo">Biblioteca musical</div>
+                    </div>
+                    <span class="subtitulo">25 FAIXAS</span>
+                </div>
+
+                <div class="lista-musicas" id="listaMusicas"></div>
+
+            </section>
+
+            <!-- CÂMERA DE RÉ -->
+
+            <section class="tela" id="camera">
+
+                <div class="cabecalho-pagina">
+                    <div>
+                        <div class="subtitulo">ASSISTÊNCIA AO MOTORISTA</div>
+                        <div class="titulo">Câmera de ré</div>
+                    </div>
+
+                    <div class="linha-botoes">
+                        <button class="botao" id="botaoGuias" onclick="alternarGuias()">Guias ON</button>
+                        <button class="botao secundario" id="botaoSensores" onclick="alternarSensores()">Sensores ON</button>
+                    </div>
+                </div>
+
+                <div class="camera" id="cenaCamera">
+
+                    <div class="parede"></div>
+                    <div class="chao"></div>
+                    <div class="linhas-estacionamento"></div>
+                    <div class="guias"></div>
+                    <div class="carro-visto-cima"></div>
+
+                    <div class="sensor esquerdo"></div>
+                    <div class="sensor direito"></div>
+
+                    <div class="camera-topo">
+                        <span>VISÃO TRASEIRA · R</span>
+                        <span id="distancia">SENSORES ATIVOS</span>
+                    </div>
+
+                    <div class="camera-rodape">
+                        <strong>◆ ÁREA LIVRE</strong>
+                        <span>VISUALIZAÇÃO DEMONSTRATIVA</span>
+                    </div>
+
+                </div>
+
+                <p class="aviso">Câmera e sensores são simulações visuais. Preste atenção ao redor</p>
+
+            </section>
+
+            <!-- CLIMATIZAÇÃO -->
+
+            <section class="tela" id="clima">
+
+                <div class="subtitulo">CONFORTO INTERNO</div>
+                <div class="titulo">Ar-condicionado e climatização</div>
+
+                <div class="clima-layout">
+
+                    <div class="painel clima-principal">
+
+                        <div>
+                            <div class="subtitulo">TEMPERATURA DESEJADA</div>
+
+                            <div class="controle-temperatura">
+                                <button onclick="mudarTemperatura(-1)">−</button>
+                                <div class="temperatura-ajustada">
+                                    <span id="temperaturaDefinida">21</span><small>°C</small>
+                                </div>
+                                <button onclick="mudarTemperatura(1)">+</button>
+                            </div>
+                        </div>
+
+                        <div class="acoes-clima">
+                            <button id="arBtn" class="ligado" onclick="alternarClima('arBtn')">❄<br>Ar-condicionado</button>
+                            <button id="autoBtn" class="ligado" onclick="alternarClima('autoBtn')">AUTO<br>Automático</button>
+                            <button id="recBtn" onclick="alternarClima('recBtn')">↻<br>Recircular</button>
+                        </div>
+
+                        <div>
+                            <label for="ventilador">Velocidade do ventilador: <strong class="dourado" id="nivelVentilador">3 de 7</strong></label>
+                            <input class="barra" id="ventilador" type="range" min="0" max="7" value="3" oninput="mudarVentilador(this.value)">
+                        </div>
+
+                        <div class="linha-botoes">
+                            <button class="botao secundario" onclick="modoClima('eco')">ECO</button>
+                            <button class="botao secundario" onclick="modoClima('conforto')">CONFORTO</button>
+                            <button class="botao secundario" onclick="modoClima('desembaçar')">DESEMBAÇAR</button>
+                        </div>
+
+                    </div>
+
+                    <div class="painel ambiente">
+
+                        <div class="subtitulo">TEMPERATURA AMBIENTE</div>
+                        <div class="temperatura-ambiente">22°C</div>
+                        <div class="muted" style="font-size:10px">Leitura demonstrativa do ambiente</div>
+
+                        <div style="width:100%;border-top:1px solid #444;margin-top:20px;padding-top:10px">
+
+                            <div class="configuracao">
+                                <span>Temperatura interna</span>
+                                <strong id="temperaturaInterna">21°C</strong>
+                            </div>
+
+                            <div class="configuracao">
+                                <span>Ar-condicionado</span>
+                                <strong id="estadoAr">Ligado</strong>
+                            </div>
+
+                            <div class="configuracao">
+                                <span>Modo</span>
+                                <strong id="modoAtual">AUTO</strong>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- MAPA -->
+
+            <section class="tela" id="mapa">
+
+                <div class="subtitulo">ORIENTAÇÃO</div>
+                <div class="titulo">Navegação</div>
+
+                <div class="mapa-layout">
+
+                    <div class="painel">
+
+                        <div class="subtitulo">PARA ONDE VAMOS?</div>
+                        <p class="mapa-texto">
+                            Digite um endereço, cidade ou ponto de interesse.
+                            O destino será aberto no Google Maps.
+                        </p>
+
+                        <input class="campo" id="destino" placeholder="Ex.: Centro de Chapecó, SC">
+
+                        <div class="linha-botoes" style="margin-top:12px">
+                            <button class="botao" onclick="buscarDestino()">Buscar destino ↗</button>
+                            <button class="botao secundario" onclick="minhaLocalizacao()">Minha localização</button>
+                        </div>
+
+                        <p class="aviso" id="mensagemMapa">Aguardando destino...</p>
+
+                    </div>
+
+                    <div class="mapa-grafico">
+                        <div class="ruas"></div>
+                        <span class="pino">📍</span>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- TELEFONE -->
+
+            <section class="tela" id="telefone">
+
+                <div class="subtitulo">CONECTIVIDADE</div>
+                <div class="titulo">Telefone e Bluetooth</div>
+
+                <div class="duas-colunas">
+
+                    <div class="painel telefone-centro">
+                        <div class="icone-grande">⌁</div>
+                        <h3>Conexão Bluetooth</h3>
+                        <p class="aviso">Interface demonstrativa. Não realiza pareamento real.</p>
+
+                        <button class="botao" id="bluetoothBtn" onclick="alternarBluetooth()">Ativar Bluetooth</button>
+
+                        <p id="estadoBluetooth" class="aviso">Desativado</p>
+                    </div>
+
+                    <div class="painel">
+
+                        <div class="subtitulo">INFORMAÇÕES DO TELEFONE</div>
+
+                        <div class="configuracao">
+                            <span>Dispositivo</span>
+                            <strong id="nomeDispositivo">Nenhum</strong>
+                        </div>
+
+                        <div class="configuracao">
+                            <span>Chamadas recentes</span>
+                            <strong>Sem registros</strong>
+                        </div>
+
+                        <div class="configuracao">
+                            <span>Contatos</span>
+                            <strong>Não sincronizados</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- CONFIGURAÇÕES -->
+
+            <section class="tela" id="ajustes">
+
+                <div class="subtitulo">PERSONALIZAÇÃO DO SISTEMA</div>
+                <div class="titulo">Configurações avançadas</div>
+
+                <div class="configuracoes">
+
+                    <div class="painel">
+
+                        <div class="subtitulo">TELA E APARÊNCIA</div>
+
+                        <label>Brilho da tela</label>
+                        <input class="barra" type="range" min="60" max="115" value="100" oninput="mudarBrilho(this.value)">
+
+                        <div class="configuracao">
+                            <span>Nível de brilho</span>
+                            <strong id="valorBrilho">100%</strong>
+                        </div>
+
+                        <label>Cor de destaque</label>
+                        <select class="campo" onchange="mudarCor(this.value)">
+                            <option value="gold">Dourado clássico</option>
+                            <option value="copper">Cobre</option>
+                            <option value="silver">Prata</option>
+                            <option value="blue">Azul</option>
+                        </select>
+
+                        <label>Formato do relógio</label>
+                        <select class="campo" onchange="mudarFormatoHora(this.value)">
+                            <option value="24">24 horas</option>
+                            <option value="12">12 horas</option>
+                        </select>
+
+                    </div>
+
+                    <div class="painel">
+
+                        <div class="subtitulo">SISTEMA E PREFERÊNCIAS</div>
+
+                        <label><input type="checkbox" checked> Alertar sobre possiveis falhas no veiculo</label>
+                        <label><input type="checkbox" checked> Modo sentinela</label>
+                        <label><input type="checkbox"> Conexão automática Bluetooth</label>
+                        <label><input type="checkbox" checked> Animações da interface</label>
+                        <label><input type="checkbox"> Modo econômico de energia</label>
+
+                        <label>Idioma</label>
+                        <select class="campo">
+                            <option>Português (Brasil)</option>
+                            <option>English</option>
+                            <option>Español</option>
+                        </select>
+
+                        <button class="botao secundario" style="margin-top:15px" onclick="restaurarConfiguracoes()">
+                            Restaurar configurações
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <footer class="rodape">
+        <span><strong class="dourado">PEGUETH</strong> · CENTRAL MULTIMÍDIA</span>
+        <span id="statusRodape">SISTEMA PRONTO</span>
+        <button onclick="abrirTela('clima')">❄ CLIMATIZAÇÃO</button>
+    </footer>
+
+</div>
+
+<script>
+
+// NAVEGAÇÃO ENTRE TELAS
+
+function abrirTela(id, botao) {
+
+    document.querySelectorAll(".tela").forEach(function(tela) {
+        tela.classList.remove("ativa");
+    });
+
+    document.getElementById(id).classList.add("ativa");
+
+    document.querySelectorAll(".menu button").forEach(function(item) {
+        item.classList.remove("ativo");
+    });
+
+    document.querySelectorAll(".menu button").forEach(function(item) {
+        if (item.dataset.tela === id) {
+            item.classList.add("ativo");
+        }
+    });
+
+    if (botao) {
+        botao.classList.add("ativo");
+    }
+}
+
+// RELÓGIO
+
+let formatoHora = 24;
+
+function atualizarRelogio() {
+
+    let agora = new Date();
+
+    let hora = agora.toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: formatoHora === 12
+    });
+
+    document.getElementById("relogioTopo").textContent = hora;
+    document.getElementById("horaGrande").textContent = hora;
+
+    document.getElementById("dataGrande").textContent =
+        agora.toLocaleDateString("pt-BR", {
+            weekday: "long",
+            day: "2-digit",
+            month: "long"
+        });
+}
+
+atualizarRelogio();
+setInterval(atualizarRelogio, 1000);
+
+// BIBLIOTECA MUSICAL: SOMENTE NOMES
+
+let musicas = [
+    ["Bohemian Rhapsody", "Queen"],
+    ["Hotel California", "Eagles"],
+    ["Imagine", "John Lennon"],
+    ["Billie Jean", "Michael Jackson"],
+    ["Sweet Child O' Mine", "Guns N' Roses"],
+    ["Smells Like Teen Spirit", "Nirvana"],
+    ["Stairway to Heaven", "Led Zeppelin"],
+    ["Dream On", "Aerosmith"],
+    ["Take On Me", "a-ha"],
+    ["Everybody Wants to Rule the World", "Tears for Fears"],
+    ["Careless Whisper", "George Michael"],
+    ["Wonderwall", "Oasis"],
+    ["Another Brick in the Wall", "Pink Floyd"],
+    ["Livin' on a Prayer", "Bon Jovi"],
+    ["Like a Rolling Stone", "Bob Dylan"],
+    ["The Sound of Silence", "Simon & Garfunkel"],
+    ["My Way", "Frank Sinatra"],
+    ["Fly Me to the Moon", "Frank Sinatra"],
+    ["Can't Help Falling in Love", "Elvis Presley"],
+    ["Suspicious Minds", "Elvis Presley"],
+    ["Take My Breath Away", "Berlin"],
+    ["Africa", "Toto"],
+    ["Nothing Else Matters", "Metallica"],
+    ["Iris", "Goo Goo Dolls"],
+    ["Tempo Perdido", "Legião Urbana"]
+];
+
+let lista = document.getElementById("listaMusicas");
+
+musicas.forEach(function(musica, indice) {
+
+    let item = document.createElement("div");
+    item.className = "musica";
+
+    item.innerHTML =
+        '<span class="numero">' +
+        String(indice + 1).padStart(2, "0") +
+        '</span><div><strong></strong><small></small></div>';
+
+    item.querySelector("strong").textContent = musica[0];
+    item.querySelector("small").textContent = musica[1];
+
+    item.addEventListener("click", function() {
+
+        document.querySelectorAll(".musica").forEach(function(m) {
+            m.classList.remove("selecionada");
+        });
+
+        item.classList.add("selecionada");
+
+        document.getElementById("statusRodape").textContent =
+            "FAIXA SELECIONADA · SEM ÁUDIO";
+
+    });
+
+    lista.appendChild(item);
+
+});
+
+// CLIMATIZAÇÃO
+
+let temperatura = 21;
+let arLigado = true;
+let modoAutomatico = true;
+let recirculacao = false;
+
+function mudarTemperatura(valor) {
+
+    temperatura += valor;
+
+    if (temperatura < 16) temperatura = 16;
+    if (temperatura > 30) temperatura = 30;
+
+    atualizarClima();
+}
+
+function alternarClima(id) {
+
+    let botao = document.getElementById(id);
+
+    botao.classList.toggle("ligado");
+
+    if (id === "arBtn") {
+        arLigado = botao.classList.contains("ligado");
+    }
+
+    if (id === "autoBtn") {
+        modoAutomatico = botao.classList.contains("ligado");
+    }
+
+    if (id === "recBtn") {
+        recirculacao = botao.classList.contains("ligado");
+    }
+
+    atualizarClima();
+}
+
+function mudarVentilador(valor) {
+
+    document.getElementById("nivelVentilador").textContent =
+        valor + " de 7";
+
+    atualizarClima();
+}
+
+function modoClima(modo) {
+
+    if (modo === "eco") {
+        temperatura = 23;
+        document.getElementById("ventilador").value = 2;
+        document.getElementById("arBtn").classList.remove("ligado");
+        document.getElementById("autoBtn").classList.add("ligado");
+        document.getElementById("recBtn").classList.add("ligado");
+    }
+
+    if (modo === "conforto") {
+        temperatura = 21;
+        document.getElementById("ventilador").value = 3;
+        document.getElementById("arBtn").classList.add("ligado");
+        document.getElementById("autoBtn").classList.add("ligado");
+        document.getElementById("recBtn").classList.remove("ligado");
+    }
+
+    if (modo === "desembaçar") {
+        temperatura = 18;
+        document.getElementById("ventilador").value = 7;
+        document.getElementById("arBtn").classList.add("ligado");
+        document.getElementById("autoBtn").classList.remove("ligado");
+        document.getElementById("recBtn").classList.remove("ligado");
+    }
+
+    arLigado = document.getElementById("arBtn").classList.contains("ligado");
+    modoAutomatico = document.getElementById("autoBtn").classList.contains("ligado");
+    recirculacao = document.getElementById("recBtn").classList.contains("ligado");
+
+    atualizarClima();
+    mudarVentilador(document.getElementById("ventilador").value);
+}
+
+function atualizarClima() {
+
+    document.getElementById("temperaturaDefinida").textContent = temperatura;
+    document.getElementById("estadoAr").textContent = arLigado ? "Ligado" : "Desligado";
+    document.getElementById("modoAtual").textContent = modoAutomatico ? "AUTO" : "MANUAL";
+    document.getElementById("temperaturaInterna").textContent = temperatura + "°C";
+    document.getElementById("resumoClima").textContent =
+        temperatura + "°C · " + (modoAutomatico ? "AUTO" : "MANUAL");
+}
+
+atualizarClima();
+
+// CÂMERA DE RÉ
+
+function alternarGuias() {
+
+    let cena = document.getElementById("cenaCamera");
+    cena.classList.toggle("sem-guias");
+
+    let ligado = !cena.classList.contains("sem-guias");
+
+    document.getElementById("botaoGuias").textContent =
+        ligado ? "Guias ON" : "Guias OFF";
+}
+
+function alternarSensores() {
+
+    let sensores = document.querySelectorAll(".sensor");
+    let ligado = sensores[0].style.display === "none";
+
+    sensores.forEach(function(sensor) {
+        sensor.style.display = ligado ? "block" : "none";
+    });
+
+    document.getElementById("botaoSensores").textContent =
+        ligado ? "Sensores ON" : "Sensores OFF";
+
+    document.getElementById("distancia").textContent =
+        ligado ? "SENSORES ATIVOS" : "SENSORES DESATIVADOS";
+}
+
+// MAPA
+
+function buscarDestino() {
+
+    let destino = document.getElementById("destino").value.trim();
+
+    if (destino === "") {
+        document.getElementById("mensagemMapa").textContent =
+            "Digite um destino antes de buscar.";
+        return;
+    }
+
+    document.getElementById("mensagemMapa").textContent =
+        "Abrindo rota para: " + destino;
+
+    window.open(
+        "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(destino),
+        "_blank"
+    );
+}
+
+function minhaLocalizacao() {
+
+    if (!navigator.geolocation) {
+        document.getElementById("mensagemMapa").textContent =
+            "Localização não disponível neste navegador.";
+        return;
+    }
+
+    document.getElementById("mensagemMapa").textContent =
+        "Solicitando localização...";
+
+    navigator.geolocation.getCurrentPosition(
+        function(posicao) {
+
+            let coordenadas =
+                posicao.coords.latitude + "," +
+                posicao.coords.longitude;
+
+            window.open(
+                "https://www.google.com/maps/search/?api=1&query=" +
+                encodeURIComponent(coordenadas),
+                "_blank"
+            );
+
+        },
+        function() {
+            document.getElementById("mensagemMapa").textContent =
+                "Não foi possível obter a localização.";
+        }
+    );
+}
+
+// BLUETOOTH SIMULADO
+
+let bluetooth = false;
+
+function alternarBluetooth() {
+
+    bluetooth = !bluetooth;
+
+    document.getElementById("bluetoothBtn").textContent =
+        bluetooth ? "Desativar Bluetooth" : "Ativar Bluetooth";
+
+    document.getElementById("estadoBluetooth").textContent =
+        bluetooth ? "Bluetooth ativado (simulação)" : "Desativado";
+
+    document.getElementById("nomeDispositivo").textContent =
+        bluetooth ? "Aguardando aparelho" : "Nenhum";
+}
+
+// CONFIGURAÇÕES
+
+function mudarBrilho(valor) {
+
+    document.querySelector(".central").style.filter =
+        "brightness(" + (valor / 100) + ")";
+
+    document.getElementById("valorBrilho").textContent =
+        valor + "%";
+}
+
+function mudarCor(cor) {
+
+    let cores = {
+        gold: ["#f2b544", "#ffcf70"],
+        copper: ["#c87948", "#e7a078"],
+        silver: ["#b9c3cc", "#e4e9ef"],
+        blue: ["#55a9df", "#91d4ff"]
+    };
+
+    document.documentElement.style.setProperty("--gold", cores[cor][0]);
+    document.documentElement.style.setProperty("--gold2", cores[cor][1]);
+}
+
+function mudarFormatoHora(valor) {
+
+    formatoHora = Number(valor);
+    atualizarRelogio();
+}
+
+function restaurarConfiguracoes() {
+
+    mudarBrilho(100);
+
+    mudarCor("gold");
+
+    document.getElementById("statusRodape").textContent =
+        "CONFIGURAÇÕES RESTAURADAS";
+}
+
+</script>
+
+</body>
+</html>
